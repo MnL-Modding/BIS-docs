@@ -1,0 +1,547 @@
+commands:
+  0x0000:
+    name: "Terminate Cutscene"
+
+  0x0001:
+    name: "Return"
+    description: |-
+      Sets the cutscene code pointer to the top value of the stack, popping it off.
+      If the stack is empty, exits from the cutscene.
+
+  0x0002:
+    name: "Conditional Jump"
+    description: "Compares the given values using the specified operation and if the result is equal to the target value, jumps to the given offset."
+    parameters:
+      - |-
+        operation
+        Available operations:
+        00: a == b
+        01: a != b
+        02: a < b
+        03: a > b
+        04: a <= b
+        05: a >= b
+        06: (a & b) != 0
+        07: (a | b) != 0
+        08: (a ^ b) != 0
+        09: a == 0
+        0A: a != 0xFFFFFFFF
+        Anything else: false
+      - "a"
+      - "b"
+      - "target value (01 - true, 00 - false)"
+      - "offset to jump to"
+
+  0x0003:
+    name: "Jump"
+    description: "Adds the given offset to the cutscene code pointer."
+    parameters:
+      - "if 01, the value of the cutscene code pointer before the jump is pushed onto the stack"
+      - "offset to jump to"
+
+  0x0004:
+    name: "Wait"
+    description: "Pauses the script for a certain amount of time."
+    parameters:
+      - "number of frames to wait"
+
+  0x0005:
+    name: "Push onto Stack"
+    description: "Pushes the provided value onto the stack."
+    parameters:
+      - "value to push"
+
+  0x0006:
+    name: "Pop off Stack"
+    description: "Pops the top value off the stack and returns it."
+    returns: "the value that was popped"
+
+  0x0007:
+    name: "Stack-Conditional Jump"
+    description: "Compares the given value with the top value of the stack using the specified operation and if the result is true, jumps to the given offset."
+    parameters:
+      - |-
+        additional operations
+        For each of the two nibbles, performs an additional operation:
+        Low nibble:
+          1: Increment the top value of stack after the compare.
+          2: Decrement the top value of stack after the compare.
+          3: Increment the top value of stack before the compare.
+          4: Decrement the top value of stack before the compare.
+          Anything else: Don't touch the top value of the stack.
+        High nibble:
+          1: Pop the top value off the stack if the compare returns true. If this occurs, the incrementing/decrementing of the top value after the compare is skipped.
+          2: Pop the top value off the stack if the compare returns false. If this occurs, the incrementing/decrementing of the top value after the compare is skipped.
+          Anything else: Don't pop the top value off the stack.
+      - "operation (see command 0002)"
+      - "value to compare"
+      - "offset to jump to"
+
+  0x0008: 
+    name: "Set"
+    description: "(res = a)"
+    returns: "res"
+    parameters:
+      - "a"
+
+  0x0009: 
+    name: "Addition"
+    description: "(res = a + b)"
+    returns: "res"
+    parameters:
+      - "a"
+      - "b"
+
+  0x000A: 
+    name: "Subtraction"
+    description: "(res = a - b)"
+    returns: "res"
+    parameters:
+      - "a"
+      - "b"
+
+  0x000B: 
+    name: "Multiplication"
+    description: "(res = a * b)"
+    returns: "res"
+    parameters:
+      - "a"
+      - "b"
+
+  0x000C: 
+    name: "Division"
+    description: "(res = a / b)"
+    returns: "res"
+    parameters:
+      - "a"
+      - "b"
+
+  0x000D: 
+    name: "Modulo"
+    description: "(res = a % b)"
+    returns: "res"
+    parameters:
+      - "a"
+      - "b"
+
+  0x000E: 
+    name: "Logical Shift Left"
+    description: "(res = a << (b & 0xFF))"
+    returns: "res"
+    parameters:
+      - "a"
+      - "b"
+
+  0x000F: 
+    name: "Logical Shift Right"
+    description: "(res = a >> (b & 0xFF))"
+    returns: "res"
+    parameters:
+      - "a"
+      - "b"
+
+  0x0010: 
+    name: "Bitwise AND"
+    description: "(res = a & b)"
+    returns: "res"
+    parameters:
+      - "a"
+      - "b"
+
+  0x0011: 
+    name: "Bitwise OR"
+    description: "(res = a | b)"
+    returns: "res"
+    parameters:
+      - "a"
+      - "b"
+
+  0x0012: 
+    name: "Bitwise XOR"
+    description: "(res = a ^ b)"
+    returns: "res"
+    parameters:
+      - "a"
+      - "b"
+
+  0x0013: 
+    name: "Negate"
+    description: "(res = -a)"
+    returns: "res"
+    parameters:
+      - "a"
+
+  0x0014: 
+    name: "Transform into Boolean"
+    description: "(res = a == 0 ? 0 : 1)"
+    returns: "res"
+    parameters:
+      - "a"
+
+  0x0015: 
+    name: "Bitwise NOT"
+    description: "(res = ~a)"
+    returns: "res"
+    parameters:
+      - "a"
+
+  0x0016: 
+    name: "Increment"
+    description: "(res++)"
+    returns: "res"
+
+  0x0017: 
+    name: "Decrement"
+    description: "(res--)"
+    returns: "res"
+
+  0x0018: 
+    name: "Increment by"
+    description: "(res += a)"
+    returns: "res"
+    parameters:
+      - "a"
+
+  0x0019: 
+    name: "Decrement by"
+    description: "(res -= a)"
+    returns: "res"
+    parameters:
+      - "a"
+
+  0x001A: 
+    name: "Multiply by"
+    description: "(res *= a)"
+    returns: "res"
+    parameters:
+      - "a"
+
+  0x001B: 
+    name: "Divide by"
+    description: "(res /= a)"
+    returns: "res"
+    parameters:
+      - "a"
+
+  0x001C: 
+    name: "Modulo by"
+    description: "(res %= a)"
+    returns: "res"
+    parameters:
+      - "a"
+
+  0x001D: 
+    name: "Logical Shift Left by"
+    description: "(res <<= a & 0xFF)"
+    returns: "res"
+    parameters:
+      - "a"
+
+  0x001E: 
+    name: "Logical Shift Right by"
+    description: "(res >>= a & 0xFF)"
+    returns: "res"
+    parameters:
+      - "a"
+
+  0x001F: 
+    name: "Bitwise AND by"
+    description: "(res &= a)"
+    returns: "res"
+    parameters:
+      - "a"
+
+  0x0020: 
+    name: "Bitwise OR by"
+    description: "(res |= a)"
+    returns: "res"
+    parameters:
+      - "a"
+
+  0x0021: 
+    name: "Bitwise XOR by"
+    description: "(res ^= a)"
+    returns: "res"
+    parameters:
+      - "a"
+
+  0x0022: 
+    name: "Square Root"
+    description: "(res = sqrt(a))"
+    returns: "res"
+    parameters:
+      - "a"
+
+  0x0023: 
+    name: "Inverse Square Root"
+    description: "(res = invsqrt(a))"
+    returns: "res"
+    parameters:
+      - "a"
+    
+  0x0024: 
+    name: "Invert Number"
+    description: "(res = 1 / a)"
+    returns: "res"
+    parameters:
+      - "a"
+    
+  0x0025: 
+    name: "Sine"
+    description: "(res = sin(a))"
+    returns: "res"
+    parameters:
+      - "a"
+    
+  0x0026: 
+    name: "Cosine"
+    description: "(res = cos(a))"
+    returns: "res"
+    parameters:
+      - "a"
+    
+  0x0027: 
+    name: "Arctangent"
+    description: "(res = atan(a))"
+    returns: "res"
+    parameters:
+      - "a"
+    
+  0x0028: 
+    name: "Two-Argument Arctangent"
+    description: "(res = atan2(a, b))"
+    returns: "res"
+    parameters:
+      - "a"
+      - "b"
+    
+  0x0029: 
+    name: "Random"
+    description: "(res = rand() % a)"
+    returns: "res"
+    parameters:
+      - "a"
+
+  0x002A: 
+    name: "Fixed-Point Set"
+    description: "(res = a)"
+    returns: "res"
+    parameters:
+      - "a"
+
+  0x002B: 
+    name: "Fixed-Point Addition"
+    description: "(res = a + b)"
+    returns: "res"
+    parameters:
+      - "a"
+      - "b"
+
+  0x002C: 
+    name: "Fixed-Point Subtraction"
+    description: "(res = a - b)"
+    returns: "res"
+    parameters:
+      - "a"
+      - "b"
+
+  0x002D: 
+    name: "Fixed-Point Multiplication"
+    description: "(res = a * b)"
+    returns: "res"
+    parameters:
+      - "a"
+      - "b"
+
+  0x002E: 
+    name: "Fixed-Point Division"
+    description: "(res = a / b)"
+    returns: "res"
+    parameters:
+      - "a"
+      - "b"
+
+  0x002F: 
+    name: "Fixed-Point Modulo"
+    description: "(res = a % b)"
+    returns: "res"
+    parameters:
+      - "a"
+      - "b"
+
+  0x0030: 
+    name: "Fixed-Point Integer"
+    description: "(res = (int)trunc(a))"
+    returns: "res"
+    parameters:
+      - "a"
+
+  0x0031: 
+    name: "Fixed-Point Remove Fractional Part"
+    description: "(res = (fx32)trunc(a))"
+    returns: "res"
+    parameters:
+      - "a"
+
+  0x0032: 
+    name: "Fixed-Point Square Root"
+    description: "(res = sqrt(a))"
+    returns: "res"
+    parameters:
+      - "a"
+
+  0x0033: 
+    name: "Fixed-Point Inverse Square Root"
+    description: "(res = invsqrt(a))"
+    returns: "res"
+    parameters:
+      - "a"
+
+  0x0034: 
+    name: "Fixed-Point Invert Number"
+    description: "(res = 1.0 / a)"
+    returns: "res"
+    parameters:
+      - "a"
+
+  0x0035: 
+    name: "Fixed-Point Sine"
+    description: "(res = sin(a))"
+    returns: "res"
+    parameters:
+      - "a"
+
+  0x0036: 
+    name: "Fixed-Point Cosine"
+    description: "(res = cos(a))"
+    returns: "res"
+    parameters:
+      - "a"
+
+  0x0037: 
+    name: "Fixed-Point Arctangent"
+    description: "(res = atan(a))"
+    returns: "res"
+    parameters:
+      - "a"
+
+  0x0038: 
+    name: "Fixed-Point Two-Argument Arctangent"
+    description: "(res = atan2(a, b))"
+    returns: "res"
+    parameters:
+      - "a"
+      - "b"
+
+  0x0049:
+    name: "Start Thread Here and Jump"
+    description: "The given thread jumps to the command following this one, while the main thread jumps to the specified offset."
+    parameters:
+      - "thread ID"
+      - "???"
+      - "offset for main thread to jump to"
+
+  0x004B:
+    name: "Jump in Given Thread"
+    description: "The given thread jumps to the specified offset (the main thread continues normally)."
+    parameters:
+      - "thread ID"
+      - "???"
+      - "offset for given thread to jump to"
+
+  0x004C:
+    name: "Join Given Thread"
+    description: "Waits for the given thread to return."
+    parameters:
+      - "thread ID"
+
+  0x00B2:
+    name: "Move Actor"
+    description: >-
+      Moves an actor to a certain position in absolute mode or by a certain amount in relative mode.
+      The movement is a direct diagonal without any pathfinding or collision checking.
+    parameters:
+      - "actor"
+      - "mode (00 - absolute, 01 - relative)"
+      - "X position/movement"
+      - "Z position/movement"
+      - "Y position/movement"
+      - "speed"
+      - "??? (usually 0000, seems to have no effect)"
+      - "??? (appears to be the speed again, seems to have no effect)"
+      - "??? (appears to be the speed again, seems to have no effect)"
+      - "??? (usually 00, seems to have no effect)"
+      - "??? (usually 00, seems to have no effect)"
+      - "??? (usually 01, seems to have no effect)"
+      - "??? (usually 01, seems to have no effect)"
+
+  0x00B5:
+    name: "Move Actor Relative to Another Actor"
+    description: >-
+      Moves an actor to a certain position relative to an anchor actor.
+      The movement is a direct diagonal without any pathfinding or collision checking.
+    parameters:
+      - "actor to move"
+      - "actor to anchor"
+      - "X position (relative to anchor actor)"
+      - "Z position (relative to anchor actor)"
+      - "Y position (relative to anchor actor)"
+      - "speed"
+      - "??? (usually 00, seems to have no effect)"
+      - "??? (usually 00, seems to have no effect)"
+      - "??? (usually 01, seems to have no effect)"
+      - "??? (usually 01, seems to have no effect)"
+  
+  0x00D6:
+    name: "Wait for Icon Balloon to Finish"
+    parameters:
+      - "actor"
+
+  0x00F5:
+    name: "Show/Hide Action Icons"
+    parameters:
+      - "???"
+      - "set visibility (00 - hide icons, 01 - show icons)"
+
+  0x011E:
+    name: "Change Room ID for the Top Screen"
+    parameters:
+      - "room ID"
+
+  0x0135:
+    name: "Focus Camera on Actor"
+
+  0x0137:
+    name: "Wait for Camera to Finish Focusing (on Actor?)"
+
+  0x01BA:
+    name: "Show Textbox"
+    parameters:
+      - "actor"
+      - "textbox width override (00 - use width defined in string)"
+      - "textbox height override (00 - use height defined in string)"
+      - "bubble type"
+      - "tail type"
+      - "tail size (absolute value)"
+      - "tail direction (FF - automatic)"
+      - "low byte - tail horizontal offset; high byte - textbox horizontal offset"
+      - "??? (seems to have no effect)"
+      - "wait before continuing (00 - wait, anything else - do not wait)"
+      - "sound"
+      - "message #"
+      - "color"
+
+  0x01BD:
+    name: "Wait for Textbox to Close"
+
+  0x01D3:
+    name: "Load Music File"
+    parameters:
+      - "slot to load the file to(?)"
+      - "sequence ID to load"
+
+  0x01D5:
+    name: "Wait for Music to Load(?)"
+
+  0x01D6:
+    name: "Play Loaded Music File"
