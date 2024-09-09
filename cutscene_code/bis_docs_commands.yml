@@ -514,8 +514,39 @@ commands:
   0x0137:
     name: "Wait for Camera to Finish Focusing (on Actor?)"
 
+  0x0195:
+    name: "Initiate Battle"
+    parameters:
+      - "battle ID"
+      - "battle location (00 - overworld, 01 - inside bowser)"
+      - "??? (seems to have no effect)"
+      - "??? (seems to have no effect)"
+      - "party mode (00 - bros (just mario if solo), 01 - bowser, 02 - bros (just luigi if solo))"
+      - "first strike (00 - normal, 01 - jump, 02 - hammer, 03 - jump on spiky enemy, 04 - trip and fall)"
+      - "transition (02 - normal battle, 03 - final battle, 06 - boss battle)"
+      - "battle type (00 - normal, 01 - giant bowser)"
+
+  0x01B9:
+    name: "Show Textbox (Absolute Position)"
+    parameters:
+      - "X position"
+      - "Y position"
+      - "textbox width override (00 - use width defined in string)"
+      - "textbox height override (00 - use height defined in string)"
+      - "bubble type"
+      - "tail type"
+      - "tail size (FF - full size, all other values are half size)"
+      - "tail direction (not properly implemented)"
+      - "low byte - tail horizontal offset; high byte - no effect"
+      - "??? (seems to have no effect)"
+      - "wait before continuing (00 - wait, anything else - do not wait)"
+      - "sound"
+      - "message #"
+      - "??? (seems to have no effect)"
+      - "color"
+
   0x01BA:
-    name: "Show Textbox"
+    name: "Show Textbox (Relative to Actor)"
     parameters:
       - "actor"
       - "textbox width override (00 - use width defined in string)"
