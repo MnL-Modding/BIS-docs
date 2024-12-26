@@ -1,2 +1,2 @@
-PyYAML==6.0.2
+mnllib @ git+https://github.com/MnL-Modding/mnllib.py@d15a20557f2d2a1e8ad3d8432efec3bc2b3126ab
 PyYAML==6.0.2

@@ -22,7 +22,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
+          python-version: "3.13"
       - name: Install dependencies
         run: |
           pip3 install -r requirements.txt
@@ -33,6 +33,7 @@ jobs:
           mkdir -p export/cutscene_code
           cd cutscene_code
           python3 bisdocs.py > ../export/cutscene_code/commands.txt
+          python3 dump_notes.py > ../export/cutscene_code/notes.txt
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
