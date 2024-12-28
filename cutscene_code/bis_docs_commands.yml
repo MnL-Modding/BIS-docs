@@ -1,12 +1,12 @@
 commands:
   0x0000:
-    name: "Terminate Cutscene"
+    name: "Terminate Script"
 
   0x0001:
     name: "Return"
     description: |-
-      Sets the cutscene code pointer to the top value of the stack, popping it off.
-      If the stack is empty, exits from the cutscene.
+      Sets the command pointer to the top value of the stack, popping it off.
+      If the stack is empty, exits from the script.
 
   0x0002:
     name: "Conditional Jump"
@@ -34,9 +34,9 @@ commands:
 
   0x0003:
     name: "Jump"
-    description: "Adds the given offset to the cutscene code pointer."
+    description: "Adds the given offset to the command pointer."
     parameters:
-      - "if 01, the value of the cutscene code pointer before the jump is pushed onto the stack"
+      - "if 01, the value of the command pointer before the jump is pushed onto the stack"
       - "offset to jump to"
 
   0x0004:

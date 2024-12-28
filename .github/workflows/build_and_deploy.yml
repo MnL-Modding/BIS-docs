@@ -19,25 +19,39 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+      - name: Set up Hugo
+        uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: "0.140.1"
+          extended: true
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.13"
-      - name: Install dependencies
+      - name: Install Python dependencies
         run: |
           pip3 install -r requirements.txt
-      - name: Setup Pages
+      - name: Set up Pages
+        id: pages
         uses: actions/configure-pages@v5
       - name: Build
+        env:
+          HUGO_ENVIRONMENT: production
+          HUGO_ENV: production
         run: |
-          mkdir -p export/cutscene_code
           cd cutscene_code
-          python3 bisdocs.py > ../export/cutscene_code/commands.txt
-          python3 dump_notes.py > ../export/cutscene_code/notes.txt
+          python3 bisdocs.py > ../hugo/static/scripting/fevent_commands.txt
+          python3 dump_notes.py > ../hugo/static/scripting/notes.txt
+
+          cd ../hugo
+          hugo --minify --baseURL "${{ steps.pages.outputs.base_url }}/"
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./export
+          path: ./hugo/public
 
   deploy:
     environment:
