@@ -1,6 +1,7 @@
 ---
 linkTitle: "Documentation"
 title: "Home"
+description: "Welcome to the documentation for Mario & Luigi: Bowser’s Inside Story!"
 next: 'getting-started'
 cascade:
   type: docs

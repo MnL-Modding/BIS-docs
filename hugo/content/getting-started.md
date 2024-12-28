@@ -1,5 +1,6 @@
 ---
 title: "Getting started"
+description: "Before setting off on your modding journey, it's important to know some terms—M&L jargon, if you will—as well as the basics of NDS ROM structure and modding."
 weight: 1
 prev: '/'
 ---
