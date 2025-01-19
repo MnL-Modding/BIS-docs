@@ -75,7 +75,8 @@ it can very well be easier to use than QtMnL due to its support for and inclusio
 Git-friendliness, support for comments, variables, etc.
 
 ### Graphics
-WIP
+[Spritoglobin](https://github.com/MnL-Modding/Spritoglobin) is a tool that allows you to view sprites,
+with editing support being worked on. It currently only supports the US and EU versions.
 
 ### Audio
 The game's audio, like music and sound effects, is stored in `Sound/sound_data.sdat`.
