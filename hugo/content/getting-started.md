@@ -78,6 +78,9 @@ Git-friendliness, support for comments, variables, etc.
 [Spritoglobin](https://github.com/MnL-Modding/Spritoglobin) is a tool that allows you to view sprites,
 with editing support being worked on. It currently only supports the US and EU versions.
 
+### Maps
+A [Tiled](https://www.mapeditor.org) plugin for editing maps is currently being worked on.
+
 ### Audio
 The game's audio, like music and sound effects, is stored in `Sound/sound_data.sdat`.
 This is probably the *one* format used by the game that isn't specific to the *M&L* series, so you don't need any specialized tools
