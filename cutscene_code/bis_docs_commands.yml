@@ -62,7 +62,7 @@ commands:
     parameters:
       - |-
         additional operations
-        For each of the two nibbles, performs an additional operation:
+        For each of the bottom two nibbles, performs an additional operation:
         Low nibble:
           1: Increment the top value of stack after the compare.
           2: Decrement the top value of stack after the compare.
@@ -73,7 +73,7 @@ commands:
           1: Pop the top value off the stack if the compare returns true. If this occurs, the incrementing/decrementing of the top value after the compare is skipped.
           2: Pop the top value off the stack if the compare returns false. If this occurs, the incrementing/decrementing of the top value after the compare is skipped.
           Anything else: Don't pop the top value off the stack.
-      - "operation (see command 0002)"
+      - "operation (see command CM_0002)"
       - "value to compare"
       - "offset to jump to"
 
@@ -433,12 +433,67 @@ commands:
       - "a"
       - "b"
 
+  0x0039:
+    name: "Load Data from Array"
+    parameters:
+      - "array offset"
+      - "array index to load"
+    returns: "the loaded value"
+
+  0x003A:
+    name: "Load Data"
+    description: "Loads a 32-bit value from the script at the given command pointer-relative offset."
+    parameters:
+      - "offset"
+    returns: "the loaded value"
+
+  0x003B:
+    name: "Debug Print with Newline"
+    description: >-
+      Prints a null-terminated Shift JIS string to the console from the script at the given command pointer-relative offset, suffixed with a newline.
+      On a release build, does nothing.
+    parameters:
+      - "offset"
+
+  0x003C:
+    name: "Debug Print"
+    description: >-
+      Prints a null-terminated Shift JIS string to the console from the script at the given command pointer-relative offset.
+      On a release build, does nothing.
+    parameters:
+      - "offset"
+
+  0x003D:
+    name: "Debug Print as Binary/Octal(?)"
+    description: >-
+      Prints a number to the console.
+      It is unknown whether this was originally intended to be displayed as binary or octal, but most contemporary tools treat this as binary.
+      On a release build, does nothing.
+    parameters:
+      - "number"
+
+  0x003E:
+    name: "Debug Print as Decimal"
+    description: >-
+      Prints a number formatted as decimal to the console.
+      On a release build, does nothing.
+    parameters:
+      - "number"
+
+  0x003F:
+    name: "Debug Print as Hex"
+    description: >-
+      Prints a number formatted as hexadecimal to the console.
+      On a release build, does nothing.
+    parameters:
+      - "number"
+
   0x0049:
     name: "Start Thread Here and Jump"
     description: "The given thread jumps to the command following this one, while the main thread jumps to the specified offset."
     parameters:
       - "thread ID"
-      - "???"
+      -
       - "offset for main thread to jump to"
 
   0x004B:
@@ -446,7 +501,7 @@ commands:
     description: "The given thread jumps to the specified offset (the main thread continues normally)."
     parameters:
       - "thread ID"
-      - "???"
+      -
       - "offset for given thread to jump to"
 
   0x004C:
@@ -454,6 +509,19 @@ commands:
     description: "Waits for the given thread to return."
     parameters:
       - "thread ID"
+
+  0x0060:
+    name: "Execute on Secondary Screen"
+    parameters:
+      -
+      - "offset"
+
+  0x0096:
+    name: "Set Actor Animation"
+    parameters:
+      - "actor"
+      - "animation (usually 01 - walking/talking, 03 - normal)"
+      - "??? (boolean)"
 
   0x00B2:
     name: "Move Actor"
@@ -492,6 +560,9 @@ commands:
       - "??? (usually 01, seems to have no effect)"
       - "??? (usually 01, seems to have no effect)"
 
+  0x00BB:
+    name: "Wait for Actor to Finish Moving"
+
   0x00D6:
     name: "Wait for Icon Balloon to Finish"
     parameters:
@@ -500,31 +571,72 @@ commands:
   0x00F5:
     name: "Show/Hide Action Icons"
     parameters:
-      - "???"
+      -
       - "set visibility (00 - hide icons, 01 - show icons)"
 
   0x011E:
-    name: "Change Room ID for the Top Screen"
+    name: "Change Room on the Current Screen"
     parameters:
       - "room ID"
+      -
+      -
+      -
+      -
+      -
+      -
+      -
+      -
+
+  0x0133:
+    name: "Move Camera?"
+    parameters:
+      -
+      -
+      -
+      -
+      -
+      -
+      -
+      -
+      -
 
   0x0135:
     name: "Focus Camera on Actor"
+    parameters:
+      -
+      -
+      -
+      -
+      -
+      -
 
   0x0137:
     name: "Wait for Camera to Finish Focusing (on Actor?)"
 
-  0x0195:
-    name: "Initiate Battle"
+  0x014B:
+    name: "Fade Current Screen"
     parameters:
-      - "battle ID"
-      - "battle location (00 - overworld, 01 - inside bowser)"
+      -
+      -
+      -
+
+  0x014C:
+    name: "Wait for Screen to Fade"
+
+  0x0195:
+    name: "Start Battle"
+    parameters:
+      - "encounter ID"
+      - "battle location (00 - Overworld, 01 - inside bowser)"
       - "??? (seems to have no effect)"
       - "??? (seems to have no effect)"
       - "party mode (00 - bros (just mario if solo), 01 - bowser, 02 - bros (just luigi if solo))"
       - "first strike (00 - normal, 01 - jump, 02 - hammer, 03 - jump on spiky enemy, 04 - trip and fall)"
       - "transition (02 - normal battle, 03 - final battle, 06 - boss battle)"
       - "battle type (00 - normal, 01 - giant bowser)"
+
+  0x01AE:
+    name: "Swap Screens"
 
   0x01B9:
     name: "Show Textbox (Absolute Position)"
@@ -544,6 +656,7 @@ commands:
       - "message #"
       - "??? (seems to have no effect)"
       - "color"
+    returns: "the ID of the newly-shown textbox?"
 
   0x01BA:
     name: "Show Textbox (Relative to Actor)"
@@ -561,9 +674,12 @@ commands:
       - "sound"
       - "message #"
       - "color"
+    returns: "the ID of the newly-shown textbox?"
 
   0x01BD:
     name: "Wait for Textbox to Close"
+    parameters:
+      - "textbox ID?"
 
   0x01D3:
     name: "Load Music File"
