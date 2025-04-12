@@ -449,7 +449,7 @@ commands:
 
   0x003B:
     name: "Debug Print with Newline"
-    description: >-
+    description: |-
       Prints a null-terminated Shift JIS string to the console from the script at the given command pointer-relative offset, suffixed with a newline.
       On a release build, does nothing.
     parameters:
@@ -457,7 +457,7 @@ commands:
 
   0x003C:
     name: "Debug Print"
-    description: >-
+    description: |-
       Prints a null-terminated Shift JIS string to the console from the script at the given command pointer-relative offset.
       On a release build, does nothing.
     parameters:
@@ -465,16 +465,15 @@ commands:
 
   0x003D:
     name: "Debug Print as Binary/Octal(?)"
-    description: >-
-      Prints a number to the console.
-      It is unknown whether this was originally intended to be displayed as binary or octal, but most contemporary tools treat this as binary.
+    description: |-
+      Prints a number to the console. It is unknown whether this was originally intended to be displayed as binary or octal, but most contemporary tools treat this as binary.
       On a release build, does nothing.
     parameters:
       - "number"
 
   0x003E:
     name: "Debug Print as Decimal"
-    description: >-
+    description: |-
       Prints a number formatted as decimal to the console.
       On a release build, does nothing.
     parameters:
@@ -482,7 +481,7 @@ commands:
 
   0x003F:
     name: "Debug Print as Hex"
-    description: >-
+    description: |-
       Prints a number formatted as hexadecimal to the console.
       On a release build, does nothing.
     parameters:
