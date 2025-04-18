@@ -22,8 +22,8 @@ New to modding this game? Then check out:
 ### Tools
 * **[Spritoglobin](https://github.com/MnL-Modding/Spritoglobin)** \[[Releases](https://github.com/MnL-Modding/Spritoglobin/releases)\] --- Sprite viewer. Currently only supports the US and EU versions. Editing support is being worked on.
 * **[Cheatoglobin](https://github.com/MnL-Modding/Cheatoglobin)** \[[Releases](https://github.com/MnL-Modding/Cheatoglobin/releases)\] --- Save editor.
-* **[`mnlscript.py`](https://github.com/MnL-Modding/mnlscript.py)** --- Compiler and decompiler for the *Mario & Luigi* scripting language from and to Python, built using `mnllib.py`. Once again currently only supports `FEvent` scripts, but will hopefully support the rest soon.
-* [**Outdated**] **[QtMnL](https://github.com/MnL-Modding/QtMnL)** \[[Releases](https://github.com/MnL-Modding/QtMnL/releases)\] (pronounced "cute emm-'n'-ell") --- GUI editor, built using Python and `mnllib.py`. Currently only supports editing `FEvent` scripts, but will hopefully support more soon.
+* **[`mnlscript.py`](https://github.com/MnL-Modding/mnlscript.py)** --- Compiler and decompiler for the *Mario & Luigi* scripting language from and to Python, built using `mnllib.py`. Currently only supports `FEvent` scripts, but will hopefully support the rest soon.
+* [**Outdated**] **[QtMnL](https://github.com/MnL-Modding/QtMnL)** \[[Releases](https://github.com/MnL-Modding/QtMnL/releases)\] (pronounced "cute emm-'n'-ell") --- GUI editor, built using Python and `mnllib.py`. Once again currently only supports editing `FEvent` scripts, but will hopefully support more soon.
 ### Libraries
 * **`mnllib`** --- Library for the *Mario & Luigi* games. Provides things like classes with serializers and deserializers, as well as an implementation of the compression algorithm used by the game. Most development is done on the Python version.
     * **[`mnllib.py`](https://github.com/MnL-Modding/mnllib.py)** --- Pure Python implementation.
