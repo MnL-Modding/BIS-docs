@@ -15,17 +15,17 @@ commands:
       - |-
         operation
         Available operations:
-        00: a == b
-        01: a != b
-        02: a < b
-        03: a > b
-        04: a <= b
-        05: a >= b
-        06: (a & b) != 0
-        07: (a | b) != 0
-        08: (a ^ b) != 0
-        09: a == 0
-        0A: a != 0xFFFFFFFF
+        0x00: a == b
+        0x01: a != b
+        0x02: a < b
+        0x03: a > b
+        0x04: a <= b
+        0x05: a >= b
+        0x06: (a & b) != 0
+        0x07: (a | b) != 0
+        0x08: (a ^ b) != 0
+        0x09: a == 0
+        0x0A: a != 0xFFFFFFFF
         Anything else: false
       - "a"
       - "b"
@@ -64,14 +64,14 @@ commands:
         additional operations
         For each of the bottom two nibbles, performs an additional operation:
         Low nibble:
-          1: Increment the top value of stack after the compare.
-          2: Decrement the top value of stack after the compare.
-          3: Increment the top value of stack before the compare.
-          4: Decrement the top value of stack before the compare.
+          0x1: Increment the top value of stack after the compare.
+          0x2: Decrement the top value of stack after the compare.
+          0x3: Increment the top value of stack before the compare.
+          0x4: Decrement the top value of stack before the compare.
           Anything else: Don't touch the top value of the stack.
         High nibble:
-          1: Pop the top value off the stack if the compare returns true. If this occurs, the incrementing/decrementing of the top value after the compare is skipped.
-          2: Pop the top value off the stack if the compare returns false. If this occurs, the incrementing/decrementing of the top value after the compare is skipped.
+          0x1: Pop the top value off the stack if the compare returns true. If this occurs, the incrementing/decrementing of the top value after the compare is skipped.
+          0x2: Pop the top value off the stack if the compare returns false. If this occurs, the incrementing/decrementing of the top value after the compare is skipped.
           Anything else: Don't pop the top value off the stack.
       - "operation (see command CM_0002)"
       - "value to compare"
@@ -487,6 +487,61 @@ commands:
     parameters:
       - "number"
 
+  0x0041:
+    name: "Add Coins"
+    returns: "the actual number of coins that was added"
+    parameters:
+      - "amount"
+
+  0x0044:
+    name: "Add Items"
+    returns: "the actual number of the item that was added"
+    parameters:
+      - "item ID"
+      - "amount"
+
+  0x0045:
+    name: "Get Player Stat"
+    returns: "the value of the stat"
+    parameters:
+      - "player character ID"
+      - |-
+        stat
+        Known stats (stats marked as [RO] (read-only) cannot be modified):
+        0x00:      base HP
+        0x01:      base SP
+        0x02:      base POW
+        0x03:      base DEF
+        0x04:      base SPEED
+        0x05:      base STACHE
+        0x06: [RO] max HP
+        0x07:      current HP
+        0x08: [RO] max SP
+        0x09:      current SP
+        0x0A: [RO] current POW
+        0x0B: [RO] current DEF
+        0x0C: [RO] current SPEED
+        0x0D: [RO] current STACHE
+        0x0E: [RO] rank
+        0x0F: [RO] ???
+        0x10: [RO] ???
+        0x11:      EXP
+        0x12: [RO] ???
+        0x13: [RO] ???
+        0x14: [RO] ???
+        0x15:      gear amount
+        0x16:      gear piece 1
+        0x17:      gear piece 2
+        0x18:      gear piece 3
+        0x19:      badge ID
+
+  0x0046:
+    name: "Set Player Stat"
+    parameters:
+      - "player character ID"
+      - "stat (see command CM_0045)"
+      - "value"
+
   0x0049:
     name: "Start Thread Here and Jump"
     description: "The given thread jumps to the command following this one, while the main thread jumps to the specified offset."
@@ -514,6 +569,18 @@ commands:
     parameters:
       -
       - "offset"
+
+  0x0062:
+    name: "Get Actor Attribute"
+    returns: "the value of the attribute"
+    parameters:
+      - "actor"
+      - |-
+        attribute
+        Known attributes:
+        0x0B: X position
+        0x0C: Y position
+        0x0D: Z position
 
   0x0096:
     name: "Set Actor Animation"
