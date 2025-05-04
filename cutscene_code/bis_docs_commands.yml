@@ -493,16 +493,21 @@ commands:
     parameters:
       - "amount"
 
+  0x0043:
+    name: "Get Item Amount"
+    parameters:
+      - "item ID"
+    returns: "the amount of that item the player has"
+
   0x0044:
     name: "Add Items"
-    returns: "the actual number of the item that was added"
     parameters:
       - "item ID"
       - "amount"
+    returns: "the actual number of the item that was added"
 
   0x0045:
     name: "Get Player Stat"
-    returns: "the value of the stat"
     parameters:
       - "player character ID"
       - |-
@@ -534,6 +539,7 @@ commands:
         0x17:      gear piece 2
         0x18:      gear piece 3
         0x19:      badge ID
+    returns: "the value of the stat"
 
   0x0046:
     name: "Set Player Stat"
